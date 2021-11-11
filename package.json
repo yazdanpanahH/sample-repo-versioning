@@ -6,6 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "husky": {
+    "hooks": {
+      "post-merge": "(git-branch-is master && npm version minor || (git-branch-is dev && npm --no-git-tag-version version patch)"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/yazdanpanahH/sample-repo-versioning.git"
@@ -16,5 +21,11 @@
   "bugs": {
     "url": "https://github.com/yazdanpanahH/sample-repo-versioning/issues"
   },
-  "homepage": "https://github.com/yazdanpanahH/sample-repo-versioning#readme"
+  "homepage": "https://github.com/yazdanpanahH/sample-repo-versioning#readme",
+  "devDependencies": {
+    "husky": "^7.0.4"
+  },
+  "dependencies": {
+    "git-branch-is": "^4.0.0"
+  }
 }
