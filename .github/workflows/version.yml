@@ -8,22 +8,12 @@ on:
 jobs:
   version:
     runs-on: ubuntu-latest
-    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+    if: "!startsWith(github.event.head_commit.message, '[VERSION]')"
     steps:
       - uses: actions/checkout@v2
         with:
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          fetch-depth: 0
-
-      - uses: paulhatch/semantic-version@v4.0.2
-        id: next-version
-        with:
-          major_pattern: "(MAJOR)"
-          minor_pattern: "(MINOR)"
-          format: "${major}.${minor}.${increment}"
-          short_tags: false
-
       - run: git config --global user.name 'AboutBits Tech'
       - run: git config --global user.email 'tech@aboutbits.it'
-      - run: npm version {{steps.next-version.outputs.version}} -m "[RELEASE] {{ steps.next-version.outputs.version }}"
+      - run: npm version patch -m "[VERSION] %s"
       - run: git push
