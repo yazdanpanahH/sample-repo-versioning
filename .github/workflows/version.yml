@@ -1,17 +1,19 @@
-name: Get version from package.json
+name: Version Increment
 
-on: push
+on:
+  push:
+    branches:
+      - master
 
 jobs:
-  test:
+  version:
     runs-on: ubuntu-latest
-
+    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
     steps:
-      - uses: actions/checkout@v1
-
-      - name: Read package.json
-        uses: tyankatsu0105/read-package-version-actions@v1
-        id: package-version
-
-      - name: Show version number
-        run: echo "Version is ${{ steps.package-version.outputs.version }}"
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      - run: git config --global user.name 'AboutBits Tech'
+      - run: git config --global user.email 'tech@aboutbits.it'
+      - run: npm version 1.1.0
+      - run: git push
