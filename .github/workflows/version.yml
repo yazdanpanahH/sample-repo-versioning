@@ -1,4 +1,4 @@
-name: Get version from package.json
+name: Get node version from package.json
 
 on: push
 
@@ -9,9 +9,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - name: Read package.json
-        uses: dutscher/read-package-json-endpoint-actions@v1.33.7
-        id: package-json-endpoint
+      - name: get-npm-version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@master
 
-      - name: Show version number
-        run: echo "${{ steps.package-json-endpoint.outputs.version }}"
+      - name: Show node version number
+        run: echo "Version is ${{ steps.package-version.outputs.current-version }}"
