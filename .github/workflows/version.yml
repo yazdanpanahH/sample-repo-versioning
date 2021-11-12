@@ -1,16 +1,17 @@
-name: Version Increment
+name: Get version from package.json
 
-on:
-  push:
-    branches:
-      - master
+on: push
 
 jobs:
-  check:
+  test:
     runs-on: ubuntu-latest
-    if: "!startsWith(github.event.head_commit.message, '[RELEASE]')"
+
     steps:
-      - name: get-npm-version
-        id: package-version
-        uses: martinbeentjes/npm-get-version-action@master
-      - run: echo ${{ steps.package-version.outputs.current-version}}
+      - uses: actions/checkout@v1
+
+      - name: Read package.json
+        uses: dutscher/read-package-json-endpoint-actions@v1.33.7
+        id: package-json-endpoint
+
+      - name: Show version number
+        run: echo "${{ steps.package-json-endpoint.outputs.version }}"
